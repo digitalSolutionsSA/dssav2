@@ -3,26 +3,23 @@ import { motion } from 'framer-motion'
 import { lockScroll, unlockScroll } from '../utils/scrollLock'
 import { getHeroStartZoomed, setHeroStartZoomed } from '../utils/heroEntry'
 import Spline from '@splinetool/react-spline'
-import { useIsMobile } from '../utils/useIsMobile'
 
 const SCALES = [1.0]
 const TRANSITION = 'transform 1s cubic-bezier(0.22, 1, 0.36, 1)'
 
 export default function Hero() {
-  const isMobile = useIsMobile()
   const startIdx = getHeroStartZoomed() ? SCALES.length - 1 : 0
-  const [zoom, setZoom]       = useState(startIdx)
+  const [zoom, setZoom]             = useState(startIdx)
   const [splineReady, setSplineReady] = useState(false)
   const [mountSpline, setMountSpline] = useState(false)
-  const zoomRef  = useRef(startIdx)
-  const navLock  = useRef(false)
+  const zoomRef = useRef(startIdx)
+  const navLock = useRef(false)
 
   const updateZoom = (z: number) => { zoomRef.current = z; setZoom(z) }
 
   useEffect(() => {
     setHeroStartZoomed(false)
     if (zoomRef.current < SCALES.length - 1) lockScroll()
-    // Delay Spline mount by one frame so page renders first
     const id = setTimeout(() => setMountSpline(true), 80)
     return () => { unlockScroll(); clearTimeout(id) }
   }, [])
@@ -77,36 +74,13 @@ export default function Hero() {
   return (
     <section className="relative w-full h-full bg-white">
 
+      {/* Spline — all devices */}
       <div className="absolute inset-0 overflow-hidden">
-        {isMobile ? (
-          <>
-            <motion.div
-              animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
-              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute"
-              style={{ top: '-10%', right: '-20%', width: '80vw', height: '80vw', borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,0,0,0.06) 0%, transparent 70%)' }}
-            />
-            <motion.div
-              animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
-              transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-              className="absolute"
-              style={{ bottom: '-15%', left: '-15%', width: '70vw', height: '70vw', borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,0,0,0.05) 0%, transparent 70%)' }}
-            />
-            <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px)', backgroundSize: '50px 50px' }} />
-          </>
-        ) : mountSpline ? (
+        {mountSpline ? (
           <div
             className="absolute left-0 right-0 origin-center"
-            style={{
-              top: 0, bottom: '-60px',
-              transform: `scale(${SCALES[zoom]})`,
-              transition: TRANSITION,
-              // GPU layer isolation — prevents compositing fights with other elements
-              willChange: 'transform',
-              backfaceVisibility: 'hidden',
-            }}
+            style={{ top: 0, bottom: '-60px', transform: `scale(${SCALES[zoom]})`, transition: TRANSITION, willChange: 'transform', backfaceVisibility: 'hidden' }}
           >
-            {/* White bg shown until Spline is ready — no flash */}
             <div className="absolute inset-0 bg-white" style={{ opacity: splineReady ? 0 : 1, transition: 'opacity 0.4s' }} />
             <Suspense fallback={null}>
               <Spline

@@ -2,7 +2,6 @@ import { useState, useEffect, useRef, Suspense, lazy, memo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { lockScroll, unlockScroll } from '../utils/scrollLock'
 import { getIntroStart } from '../utils/introEntry'
-import { useIsMobile } from '../utils/useIsMobile'
 
 const Spline = lazy(() => import('@splinetool/react-spline'))
 
@@ -45,7 +44,6 @@ const fadeVariants = {
 }
 
 export default function IntroScrollSection() {
-  const isMobile = useIsMobile()
   const [active, setActive]     = useState(0)
   const [_dir, setDir]          = useState<1 | -1>(1)
   const [mountHands, setMountHands] = useState(false)
@@ -110,31 +108,14 @@ export default function IntroScrollSection() {
   return (
     <section className="w-full h-full bg-black overflow-hidden flex flex-col relative" data-dark>
 
-      {/* ── Right side visual ── */}
-      {isMobile ? (
-        /* Mobile: animated gradient orbs */
-        <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
-          <motion.div
-            animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.35, 0.15] }}
-            transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-            style={{ position: 'absolute', top: '-10%', right: '-20%', width: '80vw', height: '80vw', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%)' }}
-          />
-          <motion.div
-            animate={{ scale: [1, 1.3, 1], opacity: [0.08, 0.2, 0.08] }}
-            transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
-            style={{ position: 'absolute', bottom: '10%', right: '5%', width: '50vw', height: '50vw', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)' }}
-          />
-        </div>
-      ) : (
-        /* Desktop: Spline hands scene — mounted after text animates in */
-        <div className="spline-dark absolute right-0 top-0 w-[50%] h-full pointer-events-none select-none overflow-hidden" style={{ zIndex: 0, background: '#000', willChange: 'transform', backfaceVisibility: 'hidden' }}>
-          {mountHands && (
-            <div style={{ width: '142%', height: '142%', transform: 'scale(0.7)', transformOrigin: 'center center', marginLeft: '-21%', marginTop: '-21%' }}>
-              <HandsScene />
-            </div>
-          )}
-        </div>
-      )}
+      {/* ── Hands scene — all devices, mounted after text animates in ── */}
+      <div className="spline-dark absolute right-0 top-0 w-[50%] h-full pointer-events-none select-none overflow-hidden" style={{ zIndex: 0, background: '#000', willChange: 'transform', backfaceVisibility: 'hidden' }}>
+        {mountHands && (
+          <div style={{ width: '142%', height: '142%', transform: 'scale(0.7)', transformOrigin: 'center center', marginLeft: '-21%', marginTop: '-21%' }}>
+            <HandsScene />
+          </div>
+        )}
+      </div>
 
       <div className="h-[56px] flex-shrink-0" />
 

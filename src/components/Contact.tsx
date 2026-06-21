@@ -49,7 +49,7 @@ export default function Contact() {
       <div className="flex-1 flex flex-col md:flex-row px-4 md:px-[4.44%] pt-6 md:pt-[3%] pb-6 md:pb-[3%] gap-8 md:gap-16 min-h-0">
 
         {/* ─── LEFT ─── */}
-        <div className="w-full md:w-[42%] flex flex-col justify-between flex-shrink-0">
+        <div className="w-full md:w-[42%] flex flex-col flex-shrink-0">
           <div>
             {/* Label */}
             <motion.div
@@ -98,7 +98,7 @@ export default function Contact() {
           <motion.div
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.7 }}
-            className="mt-auto pt-6"
+            className="hidden md:block mt-auto pt-6"
           >
             <p className="font-bank-gothic-lt text-black/30 text-[10px] tracking-[0.25em] uppercase mb-4">Follow Us</p>
             <div className="flex flex-wrap gap-3">
@@ -132,7 +132,7 @@ export default function Contact() {
             <form onSubmit={submit} className="flex flex-col gap-5 flex-1">
 
               {/* Name + Company */}
-              <div className="grid grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
                 {[['name', 'Full Name'], ['company', 'Company']].map(([k, label]) => (
                   <div key={k} className="border-b border-black/15 group focus-within:border-black/60 transition-colors duration-300">
                     <input
@@ -145,7 +145,7 @@ export default function Contact() {
               </div>
 
               {/* Email + Phone */}
-              <div className="grid grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
                 {[['email', 'Email'], ['phone', 'Phone']].map(([k, label]) => (
                   <div key={k} className="border-b border-black/15 group focus-within:border-black/60 transition-colors duration-300">
                     <input
@@ -196,11 +196,24 @@ export default function Contact() {
                 </p>
                 <button
                   type="submit"
-                  className="bg-black text-white font-bank-gothic-lt tracking-[0.25em] uppercase px-12 py-4 rounded-full hover:bg-white hover:text-black border border-black transition-colors duration-300 flex-shrink-0"
+                  className="bg-black text-white font-bank-gothic-lt tracking-[0.25em] uppercase px-8 md:px-12 py-3 md:py-4 rounded-full hover:bg-white hover:text-black border border-black transition-colors duration-300 flex-shrink-0"
                   style={{ fontSize: 'clamp(0.7rem, 1vw, 0.9rem)' }}
                 >
                   SEND
                 </button>
+              </div>
+
+              {/* Social icons — mobile only, below form */}
+              <div className="md:hidden pt-2 pb-2">
+                <p className="font-bank-gothic-lt text-black/30 text-[10px] tracking-[0.25em] uppercase mb-3">Follow Us</p>
+                <div className="flex flex-wrap gap-3">
+                  {socials.map(({ label, href, icon }) => (
+                    <a key={label} href={href} aria-label={label}
+                      className="w-9 h-9 rounded-full border border-black/15 flex items-center justify-center text-black/40 hover:border-black/60 hover:text-black transition-all duration-300">
+                      {icon}
+                    </a>
+                  ))}
+                </div>
               </div>
 
             </form>

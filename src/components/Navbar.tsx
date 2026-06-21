@@ -26,13 +26,13 @@ export default function Navbar({ dark = false, onNavigate }: NavbarProps) {
         <button onClick={() => scroll('hero')} className="relative flex items-center">
           {/* Big faded SA behind */}
           <span
-            className={`font-bank-gothic absolute text-[52px] leading-none ${dark ? 'text-white/40' : 'text-black/40'} select-none pointer-events-none`}
-            style={{ top: '-14px', left: '62px' }}
+            className={`font-bank-gothic absolute leading-none ${dark ? 'text-white/40' : 'text-black/40'} select-none pointer-events-none`}
+            style={{ fontSize: 'clamp(32px, 6vw, 52px)', top: '-10px', left: 'clamp(44px, 9vw, 62px)' }}
           >
             SA
           </span>
-          {/* DIGITAL SOLUTIONS text */}
-          <span className={`font-bank-gothic-lt text-[17px] tracking-[0.12em] uppercase relative z-10 ${c}`}>
+          <span className={`font-bank-gothic-lt tracking-[0.12em] uppercase relative z-10 ${c}`}
+            style={{ fontSize: 'clamp(12px, 2.8vw, 17px)' }}>
             DIGITAL&nbsp;&nbsp;SOLUTIONS
           </span>
         </button>
@@ -41,11 +41,11 @@ export default function Navbar({ dark = false, onNavigate }: NavbarProps) {
         <div className="ml-auto flex items-center gap-4">
           <button
             onClick={() => scroll('contact')}
-            className={`font-bank-gothic-lt text-[13px] tracking-[0.2em] uppercase ${c} hover:opacity-50 transition-opacity`}
+            className={`hidden sm:block font-bank-gothic-lt text-[13px] tracking-[0.2em] uppercase ${c} hover:opacity-50 transition-opacity`}
           >
             CONTACT US
           </button>
-          <span className={`${dark ? 'text-white/30' : 'text-black/30'} text-sm`}>|</span>
+          <span className={`hidden sm:block ${dark ? 'text-white/30' : 'text-black/30'} text-sm`}>|</span>
           {/* Hamburger — 2 lines as per Figma */}
           <button onClick={() => setOpen(!open)} className="flex flex-col gap-[5px]" aria-label="Menu">
             <motion.span animate={open ? { rotate: 45, y: 5 } : { rotate: 0, y: 0 }} className={`block h-px w-[22px] ${bar}`} />

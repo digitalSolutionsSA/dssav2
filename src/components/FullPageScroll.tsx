@@ -62,11 +62,12 @@ export default function FullPageScroll({ pages, onPageChange }: Props) {
     return () => window.removeEventListener('keydown', onKey)
   }, [current, goTo])
 
-  // Touch
+  // Touch — must check isScrollLocked() so intro page can handle its own swipes
   useEffect(() => {
     let startY = 0
     const onStart = (e: TouchEvent) => { startY = e.touches[0].clientY }
     const onEnd   = (e: TouchEvent) => {
+      if (isScrollLocked()) return
       const diff = startY - e.changedTouches[0].clientY
       if (Math.abs(diff) > 50) goTo(current + (diff > 0 ? 1 : -1))
     }

@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+
+  body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Custom cursor only on pointer devices */
+  @media (hover: hover) and (pointer: fine) {
+    body { cursor: none; }
+  }
+
+  ::selection { background: #000; color: #fff; }
+}
+
+/* ─── Custom cursor (pointer devices only) ─── */
+@media (hover: hover) and (pointer: fine) {
+  .cursor {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    background: #000;
+    transition: background 0.2s;
+  }
+  .cursor.white { background: #fff; }
+
+  .cursor-follower {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.35);
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: border-color 0.2s;
+  }
+  .cursor-follower.white { border-color: rgba(255,255,255,0.35); }
+}
+
+/* Hide cursor elements on touch/mobile */
+@media (hover: none), (pointer: coarse) {
+  .cursor, .cursor-follower { display: none !important; }
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: #333; }
+
+/* ─── Font helpers ─── */
+.font-bank-gothic     { font-family: 'BankGothic Md BT', 'Bank Gothic', 'BankGothic', sans-serif; }
+.font-bank-gothic-lt  { font-family: 'BankGothic Lt BT', 'Bank Gothic', 'BankGothic', sans-serif; }
+
+/* ─── Performance: promote animated layers ─── */
+.spline-bg { will-change: contents; contain: strict; }
+
+/* ─── Force Spline canvas to respect container background ─── */
+.spline-dark canvas { background: #000 !important; }
+
+/* ─── Give each Spline canvas its own GPU compositing layer ─── */
+.spline-dark canvas,
+.spline-bg canvas {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  contain: strict;
+}
+
+/* ─── Reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

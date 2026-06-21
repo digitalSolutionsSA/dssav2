@@ -47,7 +47,7 @@ const fadeVariants = {
 export default function IntroScrollSection() {
   const isMobile = useIsMobile()
   const [active, setActive]     = useState(0)
-  const [dir, setDir]           = useState<1 | -1>(1)
+  const [_dir, setDir]          = useState<1 | -1>(1)
   const [mountHands, setMountHands] = useState(false)
   const navLocked               = useRef(false)
 

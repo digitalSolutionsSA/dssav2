@@ -15,7 +15,7 @@ export default function Navbar({ dark = false, onNavigate }: NavbarProps) {
   }
 
   const c = dark ? 'text-white' : 'text-[#010101]'
-  const bg = 'bg-transparent'
+
   const bar = dark ? 'bg-white' : 'bg-[#010101]'
 
   return (
